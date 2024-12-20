@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/mitre/inspec-pwsh.git
-  revision: a947ffb4f6cb961f97043ff13cf7b5fce27fa476
+  revision: e3b0425c2c66539ab29828e145818e5daa5f6558
   specs:
     inspec-pwsh (0.1.0)
       train (~> 3.10)
@@ -482,7 +482,7 @@ GEM
       tty-box (~> 0.6)
       tty-prompt (~> 0.20)
     little-plugger (1.1.4)
-    logger (1.6.3)
+    logger (1.6.4)
     logging (2.4.0)
       little-plugger (~> 1.1)
       multi_json (~> 1.14)

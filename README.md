@@ -4,12 +4,15 @@ This profile is an example profile to test the capabilities of train-pwsh and in
 Please refer to the documentation for [train-pwsh](https://github.com/mitre/train-pwsh) and [inspec-pwsh](https://github.com/mitre/inspec-pwsh) for details on how to use those tools. 
 ## Control Descriptions
 
-Controls 1.1.3 and 1.2.1 are examples of Microsoft Graph module in use. This uses the graph/exchange pwsh session.
-Control 1.3.6 is an example of Microsoft ExchangeOnline module in use. This uses the graph/exchange pwsh session. 
-Control 7.2.3 is an example of Microsoft Powershell.PnP module in use. This uses the teams/pnp pwsh session. 
-Control 8.5.3 is an example of Microsoft Teams module in use. This uses the teams/pnp pwsh session. 
+Controls 1.1.3 and 1.2.1 are examples of Microsoft Graph module in use. This uses the graph/exchange pwsh session from the pwsh_single_session_executor resource.
+Control 1.3.6 is an example of Microsoft ExchangeOnline module in use. This uses the graph/exchange pwsh session from the pwsh_single_session_executor resource. 
+Control 7.2.3 is an example of Microsoft Powershell.PnP module in use. This uses the teams/pnp pwsh session from the pwsh_single_session_executor resource. 
+Control 8.5.3 is an example of Microsoft Teams module in use. This uses the teams/pnp pwsh session from the pwsh_single_session_executor resource. 
+Control 8.6.1 is an example of Microsoft Teams module in use. This uses the exchange and teams pwsh session from the pwsh_exchange_executor and pwsh_teams_executor resources respectively. 
 
-This example profile uses two a custom resource named pwsh_single_session_executor. Within it, there are two functions named run_script_in_graph_exchange and run_script_in_teams_pnp. The names of these methods imply which modules in powershell they connect to. The goal of these methods is to establish one session for commands that connect to graph/exchange and one session for commands that connect to teams/pnp. The result of this will allow the microsoft profile to run its controls much more quickly. 
+This example profile mainly a custom resource named pwsh_single_session_executor. Within it, there are two functions named run_script_in_graph_exchange and run_script_in_teams_pnp. The names of these methods imply which modules in powershell they connect to. The goal of these methods is to establish one session for commands that connect to graph/exchange and one session for commands that connect to teams/pnp. The result of this will allow the microsoft profile to run its controls much more quickly.
+
+Control 8.6.1 in particular is an example of using two separate resources, one to run exchange commands and the other to run teams commands.
 
 # CIS Microsoft 365 Foundations Benchmark
 This InSpec Profile was created to facilitate testing and auditing of `CIS Microsoft 365 Foundations Benchmark`
