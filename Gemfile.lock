@@ -729,7 +729,7 @@ GEM
     train-kubernetes (0.2.1)
       k8s-ruby (~> 0.16.0)
       train (~> 3.0)
-    train-pwsh (0.1.0)
+    train-pwsh (0.1.1)
       ruby-pwsh
       train (~> 3.10)
     train-winrm (0.2.13)
