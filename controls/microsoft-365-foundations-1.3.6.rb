@@ -47,6 +47,12 @@ control 'microsoft-365-foundations-1.3.6' do
     Write-Output $lock_box_status
  )
   powershell_output = pwsh_single_session_executor(ensure_customer_lockbox_is_enabled_script).run_script_in_graph_exchange
+
+  if powershell_output.exit_status != 0
+    raise Inspec::Error,
+          "The powershell output returned the following error:#{powershell_output.stderr}"
+  end
+
   describe 'Ensure the CustomerLockBoxEnabled option from Get-OrganizationConfig' do
     subject { powershell_output.stdout.strip }
     it 'is set to True' do

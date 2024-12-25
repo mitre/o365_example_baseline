@@ -53,6 +53,11 @@ control 'microsoft-365-foundations-1.1.3' do
       Write-Host $globalAdmins.AdditionalProperties.Count
   )
   powershell_output = pwsh_single_session_executor(get_admin_user_count_script).run_script_in_graph_exchange
+  if powershell_output.exit_status != 0
+    raise Inspec::Error,
+          "The powershell output returned the following error:#{powershell_output.stderr}"
+  end
+
   describe 'Ensure global tenant administrator count' do
     subject { powershell_output.stdout.strip }
     it 'should be between two to four' do

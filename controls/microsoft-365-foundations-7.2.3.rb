@@ -41,23 +41,27 @@ control 'microsoft-365-foundations-7.2.3' do
   impact 0.5
   tag severity: 'medium'
   tag cis_controls: [{ '8' => ['3.3'] }]
-  tag nist: ['AC-3', 'AC-5', 'AC-6', 'MP-2']
+  tag nist: %w[AC-3 AC-5 AC-6 MP-2]
 
   ref 'https://learn.microsoft.com/en-US/sharepoint/turn-external-sharing-on-or-off?WT.mc_id=365AdminCSH_spo'
   ref 'https://learn.microsoft.com/en-us/powershell/module/sharepoint-online/set-spotenant?view=sharepoint-ps'
 
-  acceptable_values = [
-    'ExternalUserSharingOnly',
-    'ExistingExternalUserSharingOnly',
-    'Disabled'
+  acceptable_values = %w[
+    ExternalUserSharingOnly
+    ExistingExternalUserSharingOnly
+    Disabled
   ]
   ensure_external_content_sharing_restricted_script = %{
 	  (Get-PnPTenant).SharingCapability
   }
-  # powershell_output = powershell(ensure_external_content_sharing_restricted_script)
-  # raise Inspec::Error, "Powershell output returned exit status #{powershell_output.exit_status}" if powershell_output.exit_status != 0
 
   powershell_output = pwsh_single_session_executor(ensure_external_content_sharing_restricted_script).run_script_in_teams_pnp
+
+  if powershell_output.exit_status != 0
+    raise Inspec::Error,
+          "The powershell output returned the following error:#{powershell_output.stderr}"
+  end
+
   describe 'Ensure the SharingCapability option for SharePoint' do
     subject { powershell_output.stdout.strip }
     it 'is set to either ExternalUserSharingOnly, ExistingExternalUserSharingOnly, or Disabled' do

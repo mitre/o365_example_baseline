@@ -77,6 +77,10 @@ control 'microsoft-365-foundations-8.6.1' do
     (Get-CsTeamsMessagingPolicy -Identity Global).AllowSecurityEndUserReporting
  }
   powershell_output_teams = pwsh_teams_executor(microsoft_teams_script).run_script_in_teams
+  if powershell_output_teams.exit_status != 0
+    raise Inspec::Error,
+          "The powershell output returned the following error:#{powershell_output_teams.stderr}"
+  end
 
   describe 'Ensure the AllowSecurityEndUserReporting state from Get-CsTeamsMessagingPolicy' do
     subject { powershell_output_teams.stdout.strip }
@@ -91,7 +95,10 @@ control 'microsoft-365-foundations-8.6.1' do
 
   reporting_email_addresses = input('reporting_email_addresses_for_malicious_messages')
   powershell_output = pwsh_exchange_executor(microsoft_defender_script).run_script_in_exchange
-  puts(powershell_output.stdout)
+  if powershell_output.exit_status != 0
+    raise Inspec::Error,
+          "The powershell output returned the following error:#{powershell_output.stderr}"
+  end
   powershell_output = powershell_output.stdout.strip
   submission_policy_data = JSON.parse(powershell_output) unless powershell_output.empty?
   describe 'Ensure that the following state:' do

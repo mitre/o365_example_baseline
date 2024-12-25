@@ -43,10 +43,13 @@ control 'microsoft-365-foundations-8.5.3' do
     Write-Output (Get-CsTeamsMeetingPolicy -Identity Global).AutoAdmittedUsers
   }
 
-  # powershell_output = powershell(ensure_people_in_org_bypass_lobby_script)
-  # raise Inspec::Error, "Powershell output returned exit status #{powershell_output.exit_status}" if powershell_output.exit_status != 0
-
   powershell_output = pwsh_single_session_executor(ensure_people_in_org_bypass_lobby_script).run_script_in_teams_pnp
+
+  if powershell_output.exit_status != 0
+    raise Inspec::Error,
+          "The powershell output returned the following error:#{powershell_output.stderr}"
+  end
+
   describe 'Ensure that the AutoAdmittedUsers state' do
     subject { powershell_output.stdout.strip }
     it 'is set to EveryoneInCompanyExcludingGuests' do
