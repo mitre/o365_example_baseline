@@ -67,6 +67,7 @@ validation to the defined DoD requirements, the guidance can provide insight for
 to enhance their security posture and can be tailored easily for use in your organization.
  
 [top](#table-of-contents)
+
 ## Getting Started  
 ### InSpec (CINC-auditor) setup
 For maximum flexibility/accessibility `cinc-auditor`, the open-source packaged binary version of Chef InSpec should be used,
