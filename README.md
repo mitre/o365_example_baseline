@@ -8,7 +8,7 @@ Please refer to the documentation for [train-pwsh](https://github.com/mitre/trai
 - Control 1.3.6 is an example of Microsoft ExchangeOnline module in use. This uses the graph/exchange pwsh session from the pwsh_single_session_executor resource. 
 - Control 7.2.3 is an example of Microsoft Powershell.PnP module in use. This uses the teams/pnp pwsh session from the pwsh_single_session_executor resource. 
 - Control 8.5.3 is an example of Microsoft Teams module in use. This uses the teams/pnp pwsh session from the pwsh_single_session_executor resource. 
-- Control 8.6.1 is an example of Microsoft Teams module in use. This uses the exchange and teams pwsh session from the pwsh_exchange_executor and pwsh_teams_executor resources respectively. 
+- Control 8.6.1 is an example of Microsoft Teams and Microsoft Exchange modules in use. This uses the exchange and teams pwsh session from the pwsh_exchange_executor and pwsh_teams_executor resources respectively. 
 
 This example profile mainly a custom resource named pwsh_single_session_executor. Within it, there are two functions named run_script_in_graph_exchange and run_script_in_teams_pnp. The names of these methods imply which modules in powershell they connect to. The goal of these methods is to establish one session for commands that connect to graph/exchange and one session for commands that connect to teams/pnp. The result of this will allow the microsoft profile to run its controls much more quickly.
 
