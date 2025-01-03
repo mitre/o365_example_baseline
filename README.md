@@ -1,7 +1,7 @@
 # Profile Context
-This profile is an example profile to test the capabilities of train-pwsh and inspec-pwsh. The controls in this profile are a subset of the Microsoft 365 profile, and most details below explain the CIS Benchmarks the latter profile. 
+This profile is an example profile to test the capabilities of train-pwsh and inspec-pwsh. The controls in this profile are a subset of the Microsoft 365 profile, hence why there will be many details and references to that profile and its contextual information down below. 
 
-Please refer to the documentation for [train-pwsh](https://github.com/mitre/train-pwsh) and [inspec-pwsh](https://github.com/mitre/inspec-pwsh) for details on how to use those tools. 
+Please refer to the documentation for [train-pwsh](https://github.com/mitre/train-pwsh) and [inspec-pwsh](https://github.com/mitre/inspec-pwsh) for details on how to use those tools with this profile. 
 ## Control Descriptions
 
 - Controls 1.1.3 and 1.2.1 are examples of Microsoft Graph module in use. This uses the graph/exchange pwsh session from the pwsh_single_session_executor resource.
@@ -21,7 +21,7 @@ requirements.
  
 - Profile Version: **3.0.0**
 - Benchmark Date: **2024-04-29**
-- Benchmark Version: **3.1.0**
+- Benchmark Version: **3.1.2**
  
  
 This profile was developed to reduce the time it takes to perform a security checks based upon the
@@ -50,21 +50,9 @@ Table of Contents
 * [Control Descriptions](#control-descriptions)
  
 ## Benchmark Information
-The Center for Internet Security, Inc. (CIS®) create and maintain a set of Critical Security Controls (CIS Controls) for applications, computer systems and networks
-connected to the Department of Defense (DoD). These guidelines are the primary security standards
-used by the DoD agencies. In addition to defining security guidelines, the CISs also stipulate
-how security training should proceed and when security checks should occur. Organizations must
-stay compliant with these guidelines or they risk having their access to the DoD terminated.
- 
-Requirements associated with the CIS Microsoft 365 Foundations Benchmark are derived from the
-[Security Requirements Guides](https://csrc.nist.gov/glossary/term/security_requirements_guide)
-and align to the [National Institute of Standards and Technology](https://www.nist.gov/) (NIST)
-[Special Publication (SP) 800-53](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#!/800-53)
-Security Controls, [DoD Control Correlation Identifier](https://public.cyber.mil/stigs/cci/) and related standards.
- 
-The CIS Microsoft 365 Foundations Benchmark profile checks were developed to provide technical implementation
-validation to the defined DoD requirements, the guidance can provide insight for any organizations wishing
-to enhance their security posture and can be tailored easily for use in your organization.
+The Center for Internet Security, Inc. (CIS®) create and maintain a set of Critical Security Controls (CIS Controls) for applications, computer systems and networks.
+
+The original benchmark document that serves as the basis for this automated testing profile can be found at the [CIS Workbench](https://workbench.cisecurity.org) website.
  
 [top](#table-of-contents)
 
@@ -131,217 +119,132 @@ For more information on developing overlays, reference the [MITRE SAF Training](
 #### Example of tailoring Inputs *While Still Complying* with the security guidance document for the profile:
  
 ```yaml
-    #Controls using this input:
-    #1.1.3, 1.2.1, 1.2.2, 1.3.1, 1.3.3, 1.3.6, 
-    #2.1.1, 2.1.2, 2.1.3, 2.1.4, 2.1.5, 2.1.6, 2.1.7, 2.1.8, 2.1.9, 2.1.10, 2.1.14, 2.4.4, 
-    #3.1.1, 3.2.2, 
-    #5.1.1.1, 5.1.2.2, 5.1.2.3, 5.1.3.1, 5.1.5.2, 5.1.8.1, 5.2.2.3, 5.2.3.4, 
-    #6.1.1, 6.1.2, 6.1.3, 6.1.4, 6.2.1, 6.2.2, 6.2.3, 6.3.1, 6.5.1, 6.5.2, 6.5.3, 
-    #7.2.1, 7.2.2, 7.2.3, 7.2.4, 7.2.5, 7.2.6, 7.2.7, 7.2.9, 7.2.10, 7.3.1, 7.3.2, 7.3.4,
-    #8.1.1, 8.1.2, 8.2.1, 8.5.1, 8.5.2, 8.5.3, 8.5.4, 8.5.5, 8.5.6, 8.5.7, 8.5.8, 8.6.1
-    - name: client_id
-      sensitive: true
-      description: 'Client ID for Microsoft 365'
-      type: String
-      required: true
+#Controls using this input:
+#1.3.1
+- name: org_domain
+  sensitive: true
+  description: 'Domain for organization'
+  type: String
+  required: true
 
-    #Controls using this input:
-    #1.1.3, 1.2.1, 1.2.2, 1.3.1,
-    #5.1.1.1, 5.1.2.2, 5.1.2.3, 5.1.3.1, 5.1.5.2, 5.1.8.1, 5.2.3.4, 
-    #7.2.1, 7.2.2, 7.2.3, 7.2.4, 7.2.5, 7.2.6, 7.2.7, 7.2.9, 7.2.10, 7.3.1, 7.3.2, 7.3.4,
-    #8.1.1, 8.1.2, 8.2.1, 8.5.1, 8.5.2, 8.5.3, 8.5.4, 8.5.5, 8.5.6, 8.5.7, 8.5.8, 8.6.1
-    - name: tenant_id
-      sensitive: true
-      description: 'Tenant ID for Microsoft 365'
-      type: String
-      required: true
+#Controls using this input:
+#2.1.6
+- name: notify_outbound_spam_recipients
+  sensitive: true
+  description: 'Email address to notify administrator for Exchange Online Spam Policies'
+  type: Array
+  required: true
 
-    #Controls using this input:
-    #1.1.3, 1.2.1, 1.2.2, 1.3.1,
-    #5.1.1.1, 5.1.2.2, 5.1.2.3, 5.1.3.1, 5.1.5.2, 5.1.8.1, 5.2.3.4, 
-    #7.2.1, 7.2.2, 7.2.3, 7.2.4, 7.2.5, 7.2.6, 7.2.7, 7.2.9, 7.2.10, 7.3.1, 7.3.2, 7.3.4,
-    #8.1.2
-    - name: client_secret
-      sensitive: true
-      description: 'Client Secret for Microsoft 365'
-      type: String
-      required: true
+#Controls using this input:
+#2.1.6
+- name: bcc_suspicious_outbound_additional_recipients
+  sensitive: true
+  description: 'BCC email address to notify additional recipients for Exchange Online Spam Policies'
+  type: Array
+  required: true
 
-    #Controls using this input:
-    #1.2.2, 1.3.3, 1.3.6,
-    #2.1.1, 2.1.2, 2.1.3, 2.1.4, 2.1.5, 2.1.6, 2.1.7, 2.1.8, 2.1.9, 2.1.10, 2.1.14, 2.4.4, 
-    #3.1.1, 3.2.2, 
-    #5.2.2.3,
-    #6.1.1, 6.1.2, 6.1.3, 6.1.4, 6.2.1, 6.2.2, 6.2.3, 6.3.1, 6.5.1, 6.5.2, 6.5.3, 
-    #7.2.1, 7.2.2, 7.2.3, 7.2.4, 7.2.5, 7.2.6, 7.2.7, 7.2.9, 7.2.10, 7.3.1, 7.3.2, 7.3.4,
-    #8.1.1, 8.1.2, 8.2.1, 8.5.1, 8.5.2, 8.5.3, 8.5.4, 8.5.5, 8.5.6, 8.5.7, 8.5.8, 8.6.1
-    - name: certificate_path
-      sensitive: true
-      description: 'Certificate path for M365'
-      type: String
-      required: true
-      
-    #Controls using this input:
-    #1.2.2, 1.3.3, 1.3.6,
-    #2.1.1, 2.1.2, 2.1.3, 2.1.4, 2.1.5, 2.1.6, 2.1.7, 2.1.8, 2.1.9, 2.1.10, 2.1.14, 2.4.4, 
-    #3.1.1, 3.2.2, 
-    #5.2.2.3,
-    #6.1.1, 6.1.2, 6.1.3, 6.1.4, 6.2.1, 6.2.2, 6.2.3, 6.3.1, 6.5.1, 6.5.2, 6.5.3, 
-    #7.2.1, 7.2.2, 7.2.3, 7.2.4, 7.2.5, 7.2.6, 7.2.7, 7.2.9, 7.2.10, 7.3.1, 7.3.2, 7.3.4,
-    #8.1.1, 8.1.2, 8.2.1, 8.5.1, 8.5.2, 8.5.3, 8.5.4, 8.5.5, 8.5.6, 8.5.7, 8.5.8, 8.6.1
-    - name: certificate_password
-      sensitive: true
-      description: 'Password for certificate for M365'
-      type: String
-      required: true
+#Controls using this input:
+#2.1.8
+- name: spf_domains
+  sensitive: true
+  description: 'Array of domains needed to check for SPF record'
+  type: Array
+  required: true
 
-    #Controls using this input:
-    #1.2.2, 1.3.1, 1.3.3, 1.3.6,
-    #2.1.1, 2.1.2, 2.1.3, 2.1.4, 2.1.5, 2.1.6, 2.1.7, 2.1.8, 2.1.9, 2.1.10, 2.1.14, 2.4.4, 
-    #3.1.1, 3.2.2, 
-    #5.2.2.3,
-    #6.1.1, 6.1.2, 6.1.3, 6.1.4, 6.2.1, 6.2.2, 6.2.3, 6.3.1, 6.5.1, 6.5.2, 6.5.3, 
-    #8.6.1
-    - name: organization
-      sensitive: true
-      description: 'M365 Organization'
-      type: String
-      required: true
+#Controls using this input:
+#2.1.10
+- name: dmarc_domains
+  sensitive: true
+  description: 'Array of DMARC records to check'
+  type: Array
+  required: true
 
-    #Controls using this input:
-    #2.1.6
-    - name: notify_outbound_spam_recipients
-      sensitive: true
-      description: 'Email address to notify administrator for Exchange Online Spam Policies'
-      type: Array
-      required: true
+#Controls using this input:
+#2.1.10
+- name: reporting_mail_address
+  sensitive: true
+  description: 'Reporting mail address needed for DMARC check'
+  type: String
+  required: true
 
-    #Controls using this input:
-    #2.1.6
-    - name: bcc_suspicious_outbound_additional_recipients
-      sensitive: true
-      description: 'BCC email address to notify additional recipients for Exchange Online Spam Policies'
-      type: Array
-      required: true
+#Controls using this input:
+#3.2.2
+- name: permitted_exceptions_teams_locations
+  sensitive: true
+  description: 'Permitted exceptions for teams locations'
+  type: Array
+  required: true
 
-    #Controls using this input:
-    #2.1.8
-    - name: spf_domains
-      sensitive: true
-      description: 'Array of domains needed to check for SPF record'
-      type: Array
-      required: true
+#Controls using this input:
+#6.2.1
+- name: internal_domains_transport_rule
+  sensitive: true
+  description: 'Domains internal to the organization to be checked'
+  type: Array
+  required: true
 
-    #Controls using this input:
-    #2.1.10
-    - name: dmarc_domains
-      sensitive: true
-      description: 'Array of DMARC records to check'
-      type: Array
-      required: true
+#Controls using this input:
+#6.2.3
+- name: email_addresses_bypass_external_tagging
+  sensitive: true
+  description: 'Email address list that are allowed to bypass external tagging'
+  type: Array
+  required: true
 
-    #Controls using this input:
-    #2.1.10
-    - name: reporting_mail_address
-      sensitive: true
-      description: 'Reporting mail address needed for DMARC check'
-      type: String
-      required: true
+#Controls using this input:
+#6.5.2
+- name: mailtipslargeaudiencethreshold_value
+  sensitive: true
+  description: 'MailTipsLargeAudienceThreshold value to check for in MailTips setting'
+  required: true
 
-    #Controls using this input:
-    #2.1.10
-    - name: moera_domains
-      sensitive: true
-      description: 'Array of MOERA records to check'
-      type: Array
-      required: true
+#Controls using this input:
+#6.5.2
+- name: authorized_domains_teams_admin_center
+  sensitive: true
+  description: 'List of authorized domains for AllowedDomains option in Teams Admin Center'
+  type: Array
+  required: true
 
-    #Controls using this input:
-    #3.2.2
-    - name: permitted_exceptions_teams_locations
-      sensitive: true
-      description: 'Permitted exceptions for teams locations'
-      type: Array
-      required: true
+#Controls using this input:
+#8.6.1
+- name: reporting_email_addresses_for_malicious_messages
+  sensitive: true
+  description: 'Email addresses to check to report malicious messages in Teams and Defender'
+  type: Array
+  required: true
 
-    #Controls using this input:
-    #6.2.1
-    - name: internal_domains_transport_rule
-      sensitive: true
-      description: 'Domains internal to the organization to be checked'
-      type: Array
-      required: true
+#Controls using this input:
+#7.2.6
+- name: domains_trusted_by_organization
+  sensitive: true
+  description: 'Domains that are trusted by organization in SharePoint'
+  type: Array
+  required: true
 
-    #Controls using this input:
-    #6.2.3
-    - name: email_addresses_bypass_external_tagging
-      sensitive: true
-      description: 'Email address list that are allowed to bypass external tagging'
-      type: Array
-      required: true
+#Controls using this input:
+#7.2.9
+- name: external_user_expiry_in_days_spo_threshold
+  sensitive: true
+  description: 'Threshold in days to check for external user expiry in SharePoint'
+  value: 30
+  required: true
 
-    #Controls using this input:
-    #6.5.2
-    - name: mailtipslargeaudiencethreshold_value
-      sensitive: true
-      description: 'MailTipsLargeAudienceThreshold value to check for in MailTips setting'
-      required: true
+#Controls using this input:
+#7.2.10
+- name: email_attestation_re_auth_days_spo_threshold
+  sensitive: true
+  description: 'Threshold in days to check for email attestation auth in SharePoint'
+  value: 15
+  required: true
 
-    #Controls using this input:
-    #6.5.2
-    - name: authorized_domains_teams_admin_center
-      sensitive: true
-      description: 'List of authorized domains for AllowedDomains option in Teams Admin Center'
-      type: Array
-      required: true
-
-    #Controls using this input:
-    #8.6.1
-    - name: reporting_email_addresses_for_malicious_messages
-      sensitive: true
-      description: 'Email addresses to check to report malicious messages in Teams and Defender'
-      type: Array
-      required: true
-
-    #Controls using this input:
-    #7.2.1, 7.2.2, 7.2.3, 7.2.4, 7.2.5, 7.2.6, 7.2.7, 7.2.9, 7.2.10, 7.3.1, 7.3.2, 7.3.4,
-    - name: sharepoint_admin_url
-      sensitive: true
-      description: 'SharePoint Admin URL to connect to'
-      type: String
-      required: true
-
-    #Controls using this input:
-    #7.2.6
-    - name: domains_trusted_by_organization
-      sensitive: true
-      description: 'Domains that are trusted by organization in SharePoint'
-      type: Array
-      required: true
-
-    #Controls using this input:
-    #7.2.9
-    - name: external_user_expiry_in_days_spo_threshold
-      sensitive: true
-      description: 'Threshold in days to check for external user expiry in SharePoint'
-      value: 30
-      required: true
-
-    #Controls using this input:
-    #7.2.10
-    - name: email_attestation_re_auth_days_spo_threshold
-      sensitive: true
-      description: 'Threshold in days to check for email attestation auth in SharePoint'
-      value: 15
-      required: true
-
-    #Controls using this input:
-    #7.3.2
-    - name: trusted_domains_guids
-      sensitive: true
-      description: 'Domain GUIDs trusted from the on premises environment'
-      type: Array
-      required: true
+#Controls using this input:
+#7.3.2
+- name: trusted_domains_guids
+  sensitive: true
+  description: 'Domain GUIDs trusted from the on premises environment'
+  type: Array
+  required: true
 ```
  
 > [!NOTE]
@@ -408,7 +311,7 @@ access to the hosting repository.
  
 ```bash
 # Using `pwsh` transport
-time bundle exec inspec exec . -t pwsh://pwsh-options --input-file=inputs.yml
+time bundle exec cinc-auditor exec . -t pwsh://pwsh-options --input-file=inputs.yml
 ``` 
 [top](#table-of-contents)
 ## Different Run Options
